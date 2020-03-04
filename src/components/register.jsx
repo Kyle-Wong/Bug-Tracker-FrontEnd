@@ -1,40 +1,40 @@
 import React, { Component } from "react";
-import request from "../request";
-import Fetch from "fetch";
 const Global = require("../global");
 
 class Register extends Component {
-  state = {};
+  state = {
+    test: "NOTHING"
+  };
   render() {
-    return <h1>Register Page</h1>;
+    return (
+      <div>
+        <h1>Register Page</h1>
+        <div>{this.state.test}</div>
+      </div>
+    );
   }
   componentDidMount() {
     this.registerRequest();
   }
   registerRequest() {
-    const url = Global.gatewayUrl("idm/user/register");
+    const url = Global.gatewayUrl("idm/user/login");
     console.log(url);
     const body = {
       username: "testUser12345",
-      email: "email@gmail.com",
       password: "password"
     };
-    let headers = Global.corsHeader({}, "POST");
-    const options = {
-      headers: headers,
-      body: JSON.stringify(body),
-      method: "POST",
-      mode: "cors"
-    };
+    let options = Global.options({}, body, "POST");
     console.log(options);
-    fetch(url, options)
-      .then(data => {
-        return data.json();
-      })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(error => console.log(error));
+    Global.fetch(url, options, res => {
+      this.success(res);
+    });
+  }
+  success(res) {
+    console.log("Success");
+    console.log(res);
+    let state = this.state;
+    state.test = res.Session.username;
+    this.setState(state);
   }
 }
 
