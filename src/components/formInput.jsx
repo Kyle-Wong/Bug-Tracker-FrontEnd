@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../stylesheet.css";
+import "../css/register.css";
 
 class FormInput extends Component {
   state = {

@@ -1,3 +1,6 @@
+const Cookies = require("universal-cookie");
+const cookies = Cookies.default.prototype;
+console.log(Cookies);
 const gatewayPort = 9874;
 exports.pageUrl = function(path) {
   return `${frontendURL()}/${path}`;
@@ -19,6 +22,12 @@ exports.corsHeader = function(header, method) {
   header["Origin"] = "http://localhost:3000";
   header["Access-Control-Request-Method"] = method;
   header["Access-Control-Request-Headers"] = "Content-Type";
+  try {
+    header["username"] = cookies.get("username");
+  } catch (e) {}
+  try {
+    header["session"] = cookies.get("session");
+  } catch (e) {}
   return header;
 };
 exports.options = function(header, body, method) {
@@ -54,7 +63,11 @@ exports.poll = function(transaction_id, requestDelay, success, error) {
       .then(exports.getData)
       .then(data => {
         if (data.code >= 400) {
-          error(data);
+          if (data.code === 408 || data.code === 409) {
+            window.location.href = exports.pageUrl("login");
+          } else {
+            error(data);
+          }
         } else if (data.code === 0) {
           success(data);
         } else if (data.code === 201) {

@@ -1,8 +1,126 @@
 import React, { Component } from "react";
+import "../css/register.css";
+import FormInput from "./formInput";
+import Cookies from "universal-cookie";
+
+const Global = require("../global");
+
 class Login extends Component {
-  state = {};
+  state = {
+    username: "",
+    password: "",
+    loginError: ""
+  };
   render() {
-    return <h1>Login Page</h1>;
+    return (
+      <div>
+        <div className="container">
+          <div className="row justify-content-center">
+            <div className="col-lg-6 col-lg-offset-3 mx-auto">
+              <div className="card card-signin flex-row my-6">
+                <div className="card-img-left d-none d-md-flex"></div>
+                <div className="card-body">
+                  <h1 className="card-title text-center">Login</h1>
+                  <form
+                    className="form-signin"
+                    onSubmit={this.submit.bind(this)}
+                  >
+                    {this.state.loginError.length > 0 && (
+                      <div className="warning bg-danger">
+                        {this.state.loginError}
+                      </div>
+                    )}
+                    <div className="form-label-group">
+                      <FormInput
+                        type="text"
+                        id="inputUsername"
+                        className="form-control"
+                        placeholder="username"
+                        required={true}
+                        autoFocus={true}
+                        htmlFor="inputUsername"
+                        onChange={this.handleUsernameChange.bind(this)}
+                      >
+                        Username
+                      </FormInput>
+                    </div>
+
+                    <div className="form-label-group">
+                      <FormInput
+                        type="password"
+                        id="FormInputPassword"
+                        className="form-control"
+                        placeholder="Password"
+                        required={true}
+                        autoFocus={false}
+                        htmlFor="inputPassword"
+                        onChange={this.handlePasswordChange.bind(this)}
+                      >
+                        Password
+                      </FormInput>
+                    </div>
+                    <button
+                      className="btn btn-lg btn-primary btn-block text-uppercase"
+                      type="submit"
+                    >
+                      Login
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  submit(e) {
+    e.preventDefault();
+    this.login();
+  }
+  handleUsernameChange(e) {
+    this.setState({ username: e.target.value });
+  }
+  handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
+  }
+  login() {
+    const url = Global.gatewayUrl("idm/user/login");
+    console.log(url);
+    const { username, password } = this.state;
+    const body = {
+      username: username,
+      password: password
+    };
+    let options = Global.options({}, body, "POST");
+    console.log(options);
+    Global.fetch(
+      url,
+      options,
+      res => {
+        this.loginSuccess(res);
+      },
+      res => {
+        this.loginError(res);
+      }
+    );
+  }
+  loginSuccess(res) {
+    console.log(res);
+    const { username, sessionID } = res.Session;
+    const cookies = new Cookies();
+    cookies.set("username", username);
+    cookies.set("session", sessionID);
+    alert("Success");
+    //window.location.href = Global.pageUrl("");
+  }
+  loginError(res) {
+    console.log(res);
+    if (res.code === 418 || res.code === 419 || res.code === 407) {
+      this.setState({
+        loginError: "Incorrect username or password."
+      });
+    }
   }
 }
 

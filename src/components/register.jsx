@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import "../stylesheet.css";
+import "../css/register.css";
 import FormInput from "./formInput";
-import history from "../history";
 const Global = require("../global");
 class Register extends Component {
   state = {
@@ -116,10 +115,7 @@ class Register extends Component {
       </div>
     );
   }
-  componentDidMount() {}
 
-  passwordError() {}
-  emailError() {}
   submit(e) {
     e.preventDefault();
     this.registerRequest();
