@@ -1,5 +1,19 @@
 const gatewayPort = 9874;
-
+exports.pageUrl = function(path) {
+  return `${frontendURL()}/${path}`;
+};
+function urlComponents() {
+  let x = window.location.href.split("/");
+  return {
+    scheme: x[0] + "//",
+    host: x[2].split(":")[0],
+    port: x[2].split(":")[1]
+  };
+}
+function frontendURL() {
+  const { scheme, host, port } = urlComponents();
+  return `${scheme}${host}:${port}`;
+}
 exports.corsHeader = function(header, method) {
   header["Content-Type"] = "application/json";
   header["Origin"] = "http://localhost:3000";
@@ -28,7 +42,7 @@ exports.error = function(error) {
 exports.getData = function(data) {
   return data.json();
 };
-exports.poll = function(transaction_id, requestDelay, next) {
+exports.poll = function(transaction_id, requestDelay, success, error) {
   const url = exports.gatewayUrl("report");
   const options = exports.options(
     { transaction_id: transaction_id },
@@ -39,24 +53,23 @@ exports.poll = function(transaction_id, requestDelay, next) {
     fetch(url, options)
       .then(exports.getData)
       .then(data => {
-        console.log("HEY");
         if (data.code >= 400) {
-          exports.error(data);
+          error(data);
         } else if (data.code === 0) {
-          next(data);
+          success(data);
         } else if (data.code === 201) {
-          exports.poll(url, transaction_id, requestDelay, next);
+          exports.poll(url, transaction_id, requestDelay, success, error);
         }
       })
-      .catch(exports.error);
+      .catch(error);
   }, requestDelay);
 };
-exports.fetch = function(url, options, next) {
+exports.fetch = function(url, options, success, error = exports.error) {
   fetch(url, options)
     .then(exports.getData)
     .then(data => {
       console.log(data);
-      exports.poll(data.transaction_id, data.requestDelay, next);
+      exports.poll(data.transaction_id, data.requestDelay, success, error);
     })
-    .catch(exports.error);
+    .catch(error);
 };
