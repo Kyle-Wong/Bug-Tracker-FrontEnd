@@ -2,8 +2,7 @@ import React, { Component } from "react";
 import "../css/register.css";
 import FormInput from "./formInput";
 import Cookies from "universal-cookie";
-
-const Global = require("../global");
+import Global from "../global";
 
 class Login extends Component {
   state = {
@@ -16,7 +15,7 @@ class Login extends Component {
       <div>
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-lg-6 col-lg-offset-3 mx-auto">
+            <div className="col-lg-8 col-lg-offset-4 mx-auto">
               <div className="card card-signin flex-row my-6">
                 <div className="card-img-left d-none d-md-flex"></div>
                 <div className="card-body">
@@ -35,7 +34,7 @@ class Login extends Component {
                         type="text"
                         id="inputUsername"
                         className="form-control"
-                        placeholder="username"
+                        placeholder="Username"
                         required={true}
                         autoFocus={true}
                         htmlFor="inputUsername"
@@ -66,6 +65,11 @@ class Login extends Component {
                       Login
                     </button>
                   </form>
+                  <hr />
+                  <div className="text-center">
+                    Don't have an account?&nbsp;
+                    <a href="register">Register here.</a>
+                  </div>
                 </div>
               </div>
             </div>

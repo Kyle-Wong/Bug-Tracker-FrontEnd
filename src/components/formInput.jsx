@@ -31,6 +31,7 @@ class FormInput extends Component {
   }
 
   label() {
+    return;
     if (this.state.text.length === 0) {
       return (
         <label style={{ pointerEvents: "none" }} htmlFor={this.props.htmlFor}>

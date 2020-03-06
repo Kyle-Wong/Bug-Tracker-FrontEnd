@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import history from "./history";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./css/navbar.css";
 
-import NavBar from "./components/navbar";
+import MyNavbar from "./components/myNavbar";
 
 import Home from "./components/home";
 import Error from "./components/error";
@@ -14,18 +16,20 @@ class App extends Component {
   state = {};
   render() {
     return (
-      <BrowserRouter history={history}>
-        <NavBar />
-        <div>
-          <Switch>
-            <Route path="/" component={Home} exact />
-            <Route path="/register" component={Register} />
-            <Route path="/registerSuccess" component={RegisterSuccess} />
-            <Route path="/login" component={Login} />
-            <Route component={Error} />
-          </Switch>
-        </div>
-      </BrowserRouter>
+      <React.Fragment>
+        <MyNavbar />
+        <BrowserRouter history={history}>
+          <div>
+            <Switch>
+              <Route path="/" component={Home} exact />
+              <Route path="/register" component={Register} />
+              <Route path="/registerSuccess" component={RegisterSuccess} />
+              <Route path="/login" component={Login} />
+              <Route component={Error} />
+            </Switch>
+          </div>
+        </BrowserRouter>
+      </React.Fragment>
     );
   }
 }
