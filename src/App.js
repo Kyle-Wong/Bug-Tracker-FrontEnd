@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import history from "./history";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/navbar.css";
 
 import MyNavbar from "./components/myNavbar";
 
-import Home from "./components/home";
-import Error from "./components/error";
-import Register from "./components/register";
-import RegisterSuccess from "./components/registerSuccess";
-import Login from "./components/login";
+import Home from "./components/homePage";
+import Error from "./components/errorPage";
+import Register from "./components/registerPage";
+import RegisterSuccess from "./components/registerSuccessPage";
+import Login from "./components/loginPage";
 
 class App extends Component {
   state = {};
@@ -18,7 +17,7 @@ class App extends Component {
     return (
       <React.Fragment>
         <MyNavbar />
-        <BrowserRouter history={history}>
+        <BrowserRouter>
           <div>
             <Switch>
               <Route path="/" component={Home} exact />

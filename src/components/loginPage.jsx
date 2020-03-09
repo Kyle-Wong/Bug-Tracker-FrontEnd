@@ -4,7 +4,7 @@ import FormInput from "./formInput";
 import Cookies from "universal-cookie";
 import Global from "../global";
 
-class Login extends Component {
+class LoginPage extends Component {
   state = {
     username: "",
     password: "",
@@ -128,4 +128,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default LoginPage;

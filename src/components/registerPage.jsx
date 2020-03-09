@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import "../css/register.css";
 import FormInput from "./formInput";
 import Global from "../global.js";
-import { Alert } from "react-bootstrap";
-console.log(Global);
-class Register extends Component {
+class RegisterPage extends Component {
   state = {
     username: "",
     email: "",
@@ -185,4 +183,4 @@ class Register extends Component {
   }
 }
 
-export default Register;
+export default RegisterPage;

@@ -7,13 +7,13 @@ class MyNavbar extends Component {
   render() {
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-        <Navbar.Brand className="nav-header" href="#home">
+        <Navbar.Brand className="nav-header" href="/">
           React-Bootstrap
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto nav-items">
-            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#features">My Projects</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -29,9 +29,16 @@ class MyNavbar extends Component {
           </Nav>
           <Nav>
             <Nav.Link href="#deets">More deets</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              Log In
-            </Nav.Link>
+            {!this.state.userLoggedIn && (
+              <Nav.Link eventKey={2} href="login">
+                Log In
+              </Nav.Link>
+            )}
+            {this.state.userLoggedIn && (
+              <Nav.Link eventKey={2} href="">
+                Log Out
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
