@@ -124,6 +124,8 @@ class LoginPage extends Component {
       this.setState({
         loginError: "Incorrect username or password."
       });
+    } else if (res == "TypeError: Failed to fetch") {
+      alert("Failed to reach Identity Management Server");
     }
   }
 }

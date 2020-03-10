@@ -10,6 +10,8 @@ import Error from "./components/errorPage";
 import Register from "./components/registerPage";
 import RegisterSuccess from "./components/registerSuccessPage";
 import Login from "./components/loginPage";
+import Projects from "./components/projectsPage";
+import Bugs from "./components/BugsPage";
 
 class App extends Component {
   state = {};
@@ -24,6 +26,8 @@ class App extends Component {
               <Route path="/register" component={Register} />
               <Route path="/registerSuccess" component={RegisterSuccess} />
               <Route path="/login" component={Login} />
+              <Route exact path="/projects" component={Projects} />
+              <Route path="/projects/:projectID" component={Bugs} />
               <Route component={Error} />
             </Switch>
           </div>

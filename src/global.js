@@ -70,7 +70,7 @@ const Global = {
           } else if (data.code === 0) {
             success(data);
           } else if (data.code === 201) {
-            this.poll(url, transaction_id, requestDelay, success, error);
+            this.poll(transaction_id, requestDelay, success, error);
           }
         })
         .catch(error);
@@ -81,9 +81,34 @@ const Global = {
       .then(this.getData)
       .then(data => {
         console.log(data);
-        this.poll(data.transaction_id, data.requestDelay, success, error);
+        if (data.code === 0)
+          this.poll(data.transaction_id, data.requestDelay, success, error);
+        else error(data);
       })
       .catch(error);
+  },
+  verifySession(success, error = this.error) {
+    let cookies = new Cookies();
+    const url = this.gatewayUrl("idm/verifySession");
+    console.log(url);
+    const body = {
+      username: cookies.get("username"),
+      sessionID: cookies.get("session")
+    };
+    let options = Global.options({}, body, "POST");
+    console.log(options);
+    this.fetch(
+      url,
+      options,
+      res => {
+        success(res);
+      },
+      res => {
+        if (res.code === 403) {
+          window.location.href = this.pageUrl("login");
+        } else error(res);
+      }
+    );
   }
 };
 export default Global;
