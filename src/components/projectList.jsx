@@ -30,13 +30,17 @@ class ProjectList extends Component {
   }
   renderProjects() {
     const { projects } = this.state;
-    return (
-      <ul>
-        {projects.map(e => {
-          return <ProjectListItem project={e} key={e.project_id} />;
-        })}
-      </ul>
-    );
+    if (projects.length !== 0) {
+      return (
+        <ul>
+          {projects.map(e => {
+            return <ProjectListItem project={e} key={e.project_id} />;
+          })}
+        </ul>
+      );
+    } else {
+      return <h1 className="text-center">You have no projects.</h1>;
+    }
   }
 }
 

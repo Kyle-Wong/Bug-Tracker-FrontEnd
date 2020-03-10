@@ -31,7 +31,7 @@ const Global = {
   },
   options(header, body, method) {
     let options = {
-      headers: this.corsHeader(header),
+      headers: this.corsHeader(header, method),
       method: method,
       mode: "cors"
     };
@@ -83,7 +83,14 @@ const Global = {
         console.log(data);
         if (data.code === 0)
           this.poll(data.transaction_id, data.requestDelay, success, error);
-        else error(data);
+        else if (
+          data.code === 416 ||
+          data.code === 417 ||
+          data.code === 408 ||
+          data.code === 409
+        ) {
+          window.location.href = this.pageUrl("login");
+        } else error(data);
       })
       .catch(error);
   },
@@ -109,6 +116,9 @@ const Global = {
         } else error(res);
       }
     );
+  },
+  convertToDate(timestamp) {
+    return new Date(timestamp).toLocaleString();
   }
 };
 export default Global;

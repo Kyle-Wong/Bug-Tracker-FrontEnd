@@ -115,8 +115,7 @@ class LoginPage extends Component {
     const cookies = new Cookies();
     cookies.set("username", username);
     cookies.set("session", sessionID);
-    alert("Success");
-    //window.location.href = Global.pageUrl("");
+    window.location.href = Global.pageUrl("");
   }
   loginError(res) {
     console.log(res);
