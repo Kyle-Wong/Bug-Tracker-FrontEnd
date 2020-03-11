@@ -13,7 +13,7 @@ class MyNavbar extends Component {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="mr-auto nav-items">
-            <Nav.Link href="#features">My Projects</Nav.Link>
+            <Nav.Link href="/projects">My Projects</Nav.Link>
             <Nav.Link href="#pricing">Pricing</Nav.Link>
             <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
@@ -30,7 +30,7 @@ class MyNavbar extends Component {
           <Nav>
             <Nav.Link href="#deets">More deets</Nav.Link>
             {!this.state.userLoggedIn && (
-              <Nav.Link eventKey={2} href="login">
+              <Nav.Link eventKey={2} href="/login">
                 Log In
               </Nav.Link>
             )}

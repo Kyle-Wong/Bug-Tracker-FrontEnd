@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./css/navbar.css";
 
+import "./css/navbar.css";
+import { Modal, Button } from "react-bootstrap";
 import MyNavbar from "./components/myNavbar";
 
 import Home from "./components/homePage";
@@ -14,11 +14,14 @@ import Projects from "./components/projectsPage";
 import ViewProject from "./components/ViewProjectPage";
 
 class App extends Component {
-  state = {};
+  state = {
+    visible: false
+  };
   render() {
     return (
       <React.Fragment>
         <MyNavbar />
+
         <BrowserRouter>
           <div>
             <Switch>
@@ -32,6 +35,60 @@ class App extends Component {
             </Switch>
           </div>
         </BrowserRouter>
+      </React.Fragment>
+    );
+  }
+  renderModal() {
+    return (
+      <React.Fragment>
+        <button
+          type="button"
+          className="btn btn-primary"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          Launch demo modal
+        </button>
+
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
+                  Modal title
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">...</div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button type="button" className="btn btn-primary">
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }

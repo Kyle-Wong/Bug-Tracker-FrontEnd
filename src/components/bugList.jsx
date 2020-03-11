@@ -67,11 +67,11 @@ class BugList extends Component {
     const { bugs } = this.state;
     if (bugs.length !== 0) {
       return (
-        <ul>
+        <div>
           {bugs.map(e => {
             return <BugListItem bug={e} key={e.bug_id} />;
           })}
-        </ul>
+        </div>
       );
     } else {
       return <h1 className="text-center">This project has no bugs.</h1>;

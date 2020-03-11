@@ -1,20 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Global from "../global";
 import ProjectListItem from "./projectListItem";
 class ProjectList extends Component {
   state = {
-    projects: []
+    projects: [],
+    visible: false
   };
   render() {
     return (
       <div>
         <h1 className="text-center">My Projects</h1>
-        {this.renderProjects()}
+        <div className="mx-auto">{this.renderProjects()}</div>
       </div>
     );
   }
+
   componentDidMount() {
-    this.getProjects();
+    this.props.this.getProjects();
   }
   getProjects() {
     const url = Global.gatewayUrl("prjt/project/getAll");
@@ -30,13 +32,20 @@ class ProjectList extends Component {
   }
   renderProjects() {
     const { projects } = this.state;
+    const { onDelete } = this.props;
     if (projects.length !== 0) {
       return (
-        <ul>
+        <div>
           {projects.map(e => {
-            return <ProjectListItem project={e} key={e.project_id} />;
+            return (
+              <ProjectListItem
+                project={e}
+                key={e.project_id}
+                onDelete={onDelete}
+              />
+            );
           })}
-        </ul>
+        </div>
       );
     } else {
       return <h1 className="text-center">You have no projects.</h1>;
