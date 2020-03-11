@@ -16,7 +16,7 @@ class ProjectList extends Component {
   }
 
   componentDidMount() {
-    this.props.this.getProjects();
+    this.getProjects();
   }
   getProjects() {
     const url = Global.gatewayUrl("prjt/project/getAll");

@@ -15,7 +15,14 @@ class ProjectListItem extends Component {
         <div className="d-flex project mx-auto my-3" style={{ width: "600" }}>
           <div className="align-self-center p-2 mr-auto">
             <h5>
-              <a href={"/projects/" + project_id} style={{ color: "black" }}>
+              <a
+                href={
+                  "/projects/" +
+                  project_id +
+                  "?search=&page=0&order=create_time&direction=desc&includeResolved=false"
+                }
+                style={{ color: "black" }}
+              >
                 {" "}
                 {project_name}{" "}
               </a>

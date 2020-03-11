@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Global from "../global";
+import "../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {
@@ -9,11 +10,15 @@ class BugListItem extends Component {
       <React.Fragment>
         <div className="card">
           <div
-            className="card-header"
+            className="card-header d-flex"
             data-toggle="collapse"
             data-target={"#" + bodyID}
           >
-            {bug.title}
+            <div className="col-sm-4">{bug.title}</div>
+            <div className="ml-auto col-sm-3">
+              {Global.convertToDate(bug.create_time)}
+            </div>
+            <div className="col-sm-1">{bug.priority}</div>
           </div>
           <div className=" collapse" id={bodyID}>
             <div className="card-body p-10">

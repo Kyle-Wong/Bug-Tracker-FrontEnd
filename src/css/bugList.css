@@ -1,0 +1,14 @@
+.order-bar {
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: gainsboro;
+  border-bottom: 3px solid black;
+}
+.order-bar > div {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.bug-list {
+  max-width: 800px;
+  border: 2px solid black;
+}

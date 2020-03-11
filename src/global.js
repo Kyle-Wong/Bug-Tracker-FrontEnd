@@ -1,4 +1,5 @@
 import Cookies from "universal-cookie";
+import QueryString from "querystring";
 const gatewayPort = 9874;
 
 const Global = {
@@ -16,6 +17,17 @@ const Global = {
   frontendURL() {
     const { scheme, host, port } = this.urlComponents();
     return `${scheme}${host}:${port}`;
+  },
+  baseUrl(baseLength = 1) {
+    let getUrl = window.location;
+    let url = getUrl.protocol + "//" + getUrl.host;
+    for (let i = 0; i < baseLength; i++) {
+      url += "/" + getUrl.pathname.split("/")[i + 1];
+    }
+    return url;
+  },
+  addQuery(baseUrl, queryJs) {
+    baseUrl += "?" + QueryString.stringify(queryJs);
   },
   corsHeader(header, method) {
     header["Content-Type"] = "application/json";
