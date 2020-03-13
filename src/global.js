@@ -28,6 +28,7 @@ const Global = {
   },
   addQuery(baseUrl, queryJs) {
     baseUrl += "?" + QueryString.stringify(queryJs);
+    return baseUrl;
   },
   corsHeader(header, method) {
     header["Content-Type"] = "application/json";

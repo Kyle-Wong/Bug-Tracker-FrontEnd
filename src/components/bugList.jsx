@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Global from "../global";
 import BugListItem from "./bugListItem";
+import BugOrderBar from "./bugOrderBar";
+import BugSearchBar from "./bugSearchBar";
 import "../css/bugList.css";
 const QueryString = require("querystring");
 
@@ -15,41 +17,24 @@ class BugList extends Component {
     direction: "",
     includeResolved: false,
     project_id: parseInt(this.props.id),
-    tagsFilter: []
+    uniqueTags: []
   };
   render() {
-    const { title, create_time, priority } = this.order;
+    const { uniqueTags, includeResolved } = this.state;
     return (
       <div className="mx-auto bug-list">
-        <div className=" ">
-          <div className="order-bar d-flex">
-            <div
-              className="col-sm-1"
-              onClick={() => {
-                this.orderButton(title);
-              }}
-            >
-              Bug
-            </div>
-            <div
-              className="ml-auto col-sm-2"
-              onClick={() => {
-                this.orderButton(create_time);
-              }}
-            >
-              Create Time
-            </div>
-            <div className="col-sm-1"></div>
-            <div
-              className="col-sm-1"
-              onClick={() => {
-                this.orderButton(priority);
-              }}
-            >
-              Priority
-            </div>
-          </div>
-        </div>
+        <BugSearchBar
+          uniqueTags={uniqueTags}
+          includeResolved={includeResolved}
+          onCheck={this.handleCheckEvent.bind(this)}
+          onSearch={this.handleSearch.bind(this)}
+        />
+        <hr />
+        <BugOrderBar
+          order={this.state.order}
+          direction={this.state.direction}
+          onClick={this.orderButton.bind(this)}
+        />
         {this.renderBugs()}
       </div>
     );
@@ -63,20 +48,19 @@ class BugList extends Component {
       direction,
       includeResolved
     } = QueryString.parse(queryString);
-
     this.setState({
       search,
       page,
       order,
       direction,
-      includeResolved
+      includeResolved: includeResolved === "true"
     });
     this.bugSearch(
       search,
       page,
       order,
       direction,
-      includeResolved,
+      includeResolved === "true",
       parseInt(this.props.id),
       []
     );
@@ -109,16 +93,11 @@ class BugList extends Component {
     const url = Global.baseUrl(2) + "?" + QueryString.stringify(options);
     window.location.href = url;
   }
-  bugSearch(
-    search,
-    page,
-    order,
-    direction,
-    includeResolved,
-    project_id,
-    tags_filter
-  ) {
+  bugSearch(search, page, order, direction, includeResolved, project_id) {
     let url = Global.gatewayUrl("prjt/bug/get");
+    if (typeof includeResolved === "string") {
+      includeResolved = includeResolved === "true";
+    }
     let query =
       "?" +
       QueryString.stringify({
@@ -131,15 +110,14 @@ class BugList extends Component {
 
     url = query.length <= 1 ? url : url + query;
     const body = {
-      project_id,
-      tags_filter
+      project_id
     };
     const options = Global.options({}, body, "POST");
     console.log(url);
     console.log(options);
     Global.fetch(url, options, res => {
       console.log(res);
-      this.setState({ bugs: res.bugs });
+      this.setState({ bugs: res.bugs, uniqueTags: this.uniqueTags(res.bugs) });
     });
   }
 
@@ -156,6 +134,31 @@ class BugList extends Component {
     } else {
       return <h1 className="text-center">This project has no bugs.</h1>;
     }
+  }
+  uniqueTags(bugs) {
+    if (!bugs || bugs.length === 0) return [];
+    let tagSet = new Set();
+    for (let i = 0; i < bugs.length; i++) {
+      bugs[i].tag_names.map(e => {
+        tagSet.add(e);
+      });
+    }
+    return Array.from(tagSet);
+  }
+  handleCheckEvent(e) {
+    const { includeResolved } = this.state;
+    this.setState({ includeResolved: !includeResolved });
+  }
+  handleSearch(searchString) {
+    const { page, order, direction, includeResolved } = this.state;
+    this.bugSearch(
+      searchString,
+      page,
+      order,
+      direction,
+      includeResolved,
+      parseInt(this.props.id)
+    );
   }
 }
 

@@ -1,0 +1,17 @@
+.workers > div {
+  text-align: right;
+}
+.bug {
+  font-size: 14px;
+}
+.card-header {
+  cursor: default;
+}
+.tag {
+  margin-right: 10px;
+}
+.bug-body-header {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-top: 10px;
+}

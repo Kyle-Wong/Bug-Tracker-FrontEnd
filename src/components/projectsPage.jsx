@@ -43,7 +43,6 @@ class ProjectsPage extends Component {
     const options = Global.options({}, body, "POST");
     Global.fetch(url, options, res => {
       console.log(res);
-      alert("");
       window.location.reload(false);
     });
   }

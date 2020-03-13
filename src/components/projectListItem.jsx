@@ -19,7 +19,7 @@ class ProjectListItem extends Component {
                 href={
                   "/projects/" +
                   project_id +
-                  "?search=&page=0&order=create_time&direction=desc&includeResolved=false"
+                  "?search=&page=0&order=title&direction=asc&includeResolved=false"
                 }
                 style={{ color: "black" }}
               >

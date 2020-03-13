@@ -2,13 +2,20 @@
   padding-left: 15px;
   padding-right: 15px;
   background-color: gainsboro;
-  border-bottom: 3px solid black;
+  border: 1px solid black;
+  border-bottom: 2px solid black;
 }
 .order-bar > div {
   padding-top: 5px;
   padding-bottom: 5px;
+  font-size: 15px;
+  font-style: bold;
+  overflow: clip;
+  white-space: nowrap;
 }
 .bug-list {
-  max-width: 800px;
-  border: 2px solid black;
+  max-width: 1000px;
+}
+.clickable {
+  cursor: pointer;
 }

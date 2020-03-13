@@ -9,7 +9,7 @@ class ViewProjectPage extends Component {
     const { projectID } = this.props.match.params;
     const { project_name } = this.state.project;
     return (
-      <div>
+      <div style={{ marginBottom: "150px" }}>
         <h1>Project #{projectID}</h1>
         <h3>{project_name}</h3>
         <BugList id={projectID} />
