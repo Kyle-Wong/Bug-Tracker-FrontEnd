@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Global from "../global";
-import "../css/bugListItem.css";
+import Global from "../../global";
+import "../../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {

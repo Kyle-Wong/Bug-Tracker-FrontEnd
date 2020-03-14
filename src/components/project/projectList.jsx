@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import Global from "../global";
+import Global from "../../global";
 import ProjectListItem from "./projectListItem";
 class ProjectList extends Component {
   state = {

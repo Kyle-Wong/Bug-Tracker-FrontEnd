@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Global from "../global";
+import Global from "../../global";
 import BugList from "./bugList";
 class ViewProjectPage extends Component {
   state = {

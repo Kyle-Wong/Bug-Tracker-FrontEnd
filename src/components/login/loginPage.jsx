@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "../css/register.css";
-import FormInput from "./formInput";
+import "../../css/register.css";
+import FormInput from "../register/formInput";
 import Cookies from "universal-cookie";
-import Global from "../global";
+import Global from "../../global";
 
 class LoginPage extends Component {
   state = {

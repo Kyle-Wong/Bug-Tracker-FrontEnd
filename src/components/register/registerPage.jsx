@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "../css/register.css";
+import "../../css/register.css";
 import FormInput from "./formInput";
-import Global from "../global.js";
+import Global from "../../global.js";
 class RegisterPage extends Component {
   state = {
     username: "",

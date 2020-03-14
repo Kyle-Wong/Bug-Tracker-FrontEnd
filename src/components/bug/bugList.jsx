@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import Global from "../global";
+import Global from "../../global";
 import BugListItem from "./bugListItem";
 import BugOrderBar from "./bugOrderBar";
 import BugSearchBar from "./bugSearchBar";
-import "../css/bugList.css";
+import "../../css/bugList.css";
 const QueryString = require("querystring");
 
 class BugList extends Component {

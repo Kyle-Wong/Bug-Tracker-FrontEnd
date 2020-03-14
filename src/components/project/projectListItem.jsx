@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ConfirmDeleteWindow from "./confirmDeleteWindow";
 
-import "../css/projectList.css";
+import "../../css/projectList.css";
 
 class ProjectListItem extends Component {
   state = {};

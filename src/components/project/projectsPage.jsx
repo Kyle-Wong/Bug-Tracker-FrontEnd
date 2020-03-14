@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ProjectList from "./projectList";
 import ProjectAdd from "./projectAdd";
-import Global from "../global.js";
+import Global from "../../global.js";
 class ProjectsPage extends Component {
   state = {
     projectTitle: "",

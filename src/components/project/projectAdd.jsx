@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Global from "../global";
-import "../css/projectList.css";
+import Global from "../../global";
+import "../../css/projectList.css";
 class ProjectAdd extends Component {
   render() {
     const { onTitleChange, onBodyChange, onSubmit } = this.props;
