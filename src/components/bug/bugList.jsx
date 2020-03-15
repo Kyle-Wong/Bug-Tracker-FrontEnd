@@ -4,12 +4,15 @@ import BugListItem from "./bugListItem";
 import BugOrderBar from "./bugOrderBar";
 import BugSearchBar from "./bugSearchBar";
 import BugAddModal from "./bugAddModal";
+import BugEditModal from "./bugEditModal";
 import "../../css/bugList.css";
 const QueryString = require("querystring");
 
 class BugList extends Component {
   order = { title: "title", create_time: "create_time", priority: "priority" };
   direction = { asc: "asc", desc: "desc" };
+  addModalId = "add-modal";
+  editModalId = "edit-modal";
   state = {
     bugs: [],
     search: "",
@@ -18,23 +21,30 @@ class BugList extends Component {
     direction: "",
     includeResolved: false,
     project_id: parseInt(this.props.id),
-    uniqueTags: []
+    uniqueTags: [],
+    editModal: { show: false }
   };
   render() {
-    const { uniqueTags, includeResolved } = this.state;
+    const { uniqueTags, includeResolved, editModal } = this.state;
     return (
       <div className="mx-auto bug-list">
         <BugAddModal
-          id="modal"
+          id={this.addModalId}
           uniqueTags={uniqueTags}
           onSubmit={this.handleBugAdd.bind(this)}
         />
-
+        <BugEditModal
+          uniqueTags={uniqueTags}
+          onSubmit={this.handleBugEdit.bind(this)}
+          modal={editModal}
+          closeModal={this.closeEditModal.bind(this)}
+        />
         <BugSearchBar
           uniqueTags={uniqueTags}
           includeResolved={includeResolved}
           onCheck={this.handleCheckEvent.bind(this)}
           onSearch={this.handleSearch.bind(this)}
+          modalId={this.addModalId}
         />
         <hr />
         <BugOrderBar
@@ -134,7 +144,13 @@ class BugList extends Component {
       return (
         <div>
           {bugs.map(e => {
-            return <BugListItem bug={e} key={e.bug_id} />;
+            return (
+              <BugListItem
+                showModal={this.openEditModal.bind(this)}
+                bug={e}
+                key={e.bug_id}
+              />
+            );
           })}
         </div>
       );
@@ -184,6 +200,43 @@ class BugList extends Component {
       console.log(data);
       window.location.reload();
     });
+  }
+  handleBugEdit(modalState) {
+    const { bug_id, title, body, priority, tags } = modalState;
+    const project_id = parseInt(this.props.id);
+    console.log(`${bug_id}, ${title}, ${body}, ${priority}, ${tags}`);
+
+    const url = Global.gatewayUrl("/prjt/bug/edit");
+    const sendBody = {
+      project_id,
+      bug_id,
+      title,
+      body,
+      priority,
+      tags
+    };
+    const options = Global.options({}, sendBody, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      window.location.reload();
+    });
+  }
+  openEditModal(bugState) {
+    console.log(bugState);
+    const state = {
+      bug_id: bugState.bug_id,
+      title: bugState.title,
+      body: bugState.body,
+      priority: bugState.priority,
+      tags: bugState.tag_names,
+      show: true
+    };
+    this.setState({ editModal: state });
+  }
+  closeEditModal() {
+    const copy = { ...this.state.editModal };
+    copy.show = false;
+    this.setState({ editModal: copy });
   }
 }
 

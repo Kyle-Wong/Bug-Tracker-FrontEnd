@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import Global from "../../global";
+import ModalButton from "../modalButton";
 import "../../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {
-    const { bug } = this.props;
+    const { bug, showModal } = this.props;
     const bodyID = `body${bug.bug_id}`;
     return (
       <React.Fragment>
@@ -34,6 +35,24 @@ class BugListItem extends Component {
             <hr />
             <div className="card-body" style={{ paddingTop: "0px" }}>
               {bug.body}
+            </div>
+            <div className="card-footer row mx-0">
+              <div className="ml-auto">
+                <button
+                  onClick={() => {
+                    showModal(bug);
+                  }}
+                  className="btn btn-outline-primary"
+                >
+                  Edit
+                </button>
+              </div>
+              <div className="btn btn-outline-secondary mx-2">
+                Mark As Resolved
+              </div>
+              <div className="btn btn-outline-danger">
+                <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
+              </div>
             </div>
           </div>
         </div>

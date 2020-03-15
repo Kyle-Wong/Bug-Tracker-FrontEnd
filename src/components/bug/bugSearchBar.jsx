@@ -8,13 +8,13 @@ class BugSearchBar extends Component {
   };
   render() {
     const { onSearch } = this.props;
-    let { includeResolved, onCheck } = this.props;
+    let { includeResolved, onCheck, modalId } = this.props;
 
     if (!includeResolved) includeResolved = false;
     return (
       <div className="topnav border border-dark">
         <div className="bug-button">
-          <ModalButton target="modal" className="btn btn-outline-primary">
+          <ModalButton target={modalId} className="btn btn-outline-primary">
             Add new bug
           </ModalButton>
         </div>
