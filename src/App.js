@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
+import Global from "./global";
 import "./css/navbar.css";
 import MyNavbar from "./components/myNavbar";
 
@@ -14,12 +14,16 @@ import ViewProject from "./components/bug/ViewProjectPage";
 
 class App extends Component {
   state = {
+    userLoggedIn: false,
     visible: false
   };
   render() {
     return (
       <React.Fragment>
-        <MyNavbar />
+        <MyNavbar
+          userLoggedIn={this.state.userLoggedIn}
+          handleLogOut={this.logOut.bind(this)}
+        />
 
         <BrowserRouter>
           <div>
@@ -36,6 +40,39 @@ class App extends Component {
         </BrowserRouter>
       </React.Fragment>
     );
+  }
+  componentDidMount() {
+    //check if logged in
+    this.verifySession();
+  }
+  verifySession() {
+    const url = Global.gatewayUrl("idm/verifySession");
+    const body = Global.getSession();
+    const options = Global.options({}, body, "POST");
+    console.log(options);
+    Global.fetch(
+      url,
+      options,
+      data => {
+        console.log(data);
+        this.setState({ userLoggedIn: data.code === 0 });
+      },
+      data => {
+        console.log(data);
+        this.setState({ userLoggedIn: false });
+      }
+    );
+  }
+
+  logOut() {
+    const url = Global.gatewayUrl("idm/user/logout");
+    const body = {
+      username: Global.getSession().username
+    };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(url, options, data => {
+      window.location.href = "";
+    });
   }
 }
 

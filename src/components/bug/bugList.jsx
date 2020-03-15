@@ -3,6 +3,7 @@ import Global from "../../global";
 import BugListItem from "./bugListItem";
 import BugOrderBar from "./bugOrderBar";
 import BugSearchBar from "./bugSearchBar";
+import BugAddModal from "./bugAddModal";
 import "../../css/bugList.css";
 const QueryString = require("querystring");
 
@@ -23,6 +24,12 @@ class BugList extends Component {
     const { uniqueTags, includeResolved } = this.state;
     return (
       <div className="mx-auto bug-list">
+        <BugAddModal
+          id="modal"
+          uniqueTags={uniqueTags}
+          onSubmit={this.handleBugAdd.bind(this)}
+        />
+
         <BugSearchBar
           uniqueTags={uniqueTags}
           includeResolved={includeResolved}
@@ -159,6 +166,24 @@ class BugList extends Component {
       includeResolved,
       parseInt(this.props.id)
     );
+  }
+  handleBugAdd(modalState) {
+    const { title, body, priority, tags } = modalState;
+    const project_id = parseInt(this.props.id);
+    console.log(`${title}, ${body}, ${priority}, ${tags}`);
+    const url = Global.gatewayUrl("/prjt/bug/add");
+    const sendBody = {
+      project_id,
+      title,
+      body,
+      priority,
+      tags
+    };
+    const options = Global.options({}, sendBody, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      window.location.reload();
+    });
   }
 }
 

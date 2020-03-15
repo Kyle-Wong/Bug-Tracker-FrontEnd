@@ -7,6 +7,7 @@ class RegisterPage extends Component {
     username: "",
     email: "",
     password: "",
+    confirmPassword: "",
     usernameError: "",
     emailError: "",
     passwordError: ""
@@ -95,6 +96,7 @@ class RegisterPage extends Component {
                         required={true}
                         autoFocus={false}
                         htmlFor="inputConfirmPassword"
+                        onChange={this.handleConfirmPasswordChange.bind(this)}
                       >
                         Confirm password
                       </FormInput>
@@ -123,6 +125,13 @@ class RegisterPage extends Component {
 
   submit(e) {
     e.preventDefault();
+    const { password, confirmPassword } = this.state;
+    if (password !== confirmPassword) {
+      this.setState({
+        passwordError: "Passwords must match."
+      });
+      return;
+    }
     this.registerRequest();
   }
   handleUsernameChange(e) {
@@ -130,6 +139,9 @@ class RegisterPage extends Component {
   }
   handlePasswordChange(e) {
     this.setState({ password: e.target.value });
+  }
+  handleConfirmPasswordChange(e) {
+    this.setState({ confirmPassword: e.target.value });
   }
   handleEmailChange(e) {
     this.setState({ email: e.target.value });

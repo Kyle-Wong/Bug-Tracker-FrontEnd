@@ -11,6 +11,7 @@ class ViewProjectPage extends Component {
     return (
       <div style={{ marginBottom: "150px" }}>
         <h1>Project #{projectID}</h1>
+
         <h3>{project_name}</h3>
         <BugList id={projectID} />
       </div>

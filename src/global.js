@@ -4,7 +4,8 @@ const gatewayPort = 9874;
 
 const Global = {
   pageUrl(path) {
-    return `${this.frontendURL()}/${path}`;
+    if (path.startsWith("/")) return `${this.frontendURL()}${path}`;
+    else return `${this.frontendURL()}/${path}`;
   },
   urlComponents() {
     let x = window.location.href.split("/");
@@ -42,6 +43,13 @@ const Global = {
       header["session"] = cookies.get("session");
     return header;
   },
+  getSession() {
+    let cookies = new Cookies();
+    return {
+      username: cookies.get("username"),
+      session: cookies.get("session")
+    };
+  },
   options(header, body, method) {
     let options = {
       headers: this.corsHeader(header, method),
@@ -54,11 +62,28 @@ const Global = {
     return options;
   },
   gatewayUrl(path) {
-    return `http://localhost:${gatewayPort}/${path}`;
+    if (path.startsWith("/")) return `http://localhost:${gatewayPort}${path}`;
+    else return `http://localhost:${gatewayPort}/${path}`;
   },
   error(error) {
-    console.error(error);
-    alert(error.message);
+    if (
+      error.code === 416 ||
+      error.code === 417 ||
+      error.code === 408 ||
+      error.code === 409
+    ) {
+      let x = window.location.href.split("/");
+      let components = {
+        scheme: x[0] + "//",
+        host: x[2].split(":")[0],
+        port: x[2].split(":")[1]
+      };
+      const loginUrl = `${components.scheme}${components.host}:${components.port}/login`;
+      window.location.href = loginUrl;
+    } else {
+      console.error(error);
+      alert(error.message);
+    }
   },
   getData(data) {
     return data.json();
@@ -75,11 +100,7 @@ const Global = {
         .then(this.getData)
         .then(data => {
           if (data.code >= 400) {
-            if (data.code === 408 || data.code === 409) {
-              window.location.href = this.pageUrl("login");
-            } else {
-              error(data);
-            }
+            error(data);
           } else if (data.code === 0) {
             success(data);
           } else if (data.code === 201) {
@@ -95,17 +116,15 @@ const Global = {
       .then(data => {
         console.log(data);
         if (data.code === 0)
-          this.poll(data.transaction_id, data.requestDelay, success, error);
-        else if (
-          data.code === 416 ||
-          data.code === 417 ||
-          data.code === 408 ||
-          data.code === 409
-        ) {
-          window.location.href = this.pageUrl("login");
-        } else error(data);
+          this.poll(
+            data.transaction_id,
+            data.requestDelay,
+            success,
+            error.bind(this)
+          );
+        else error(data);
       })
-      .catch(error);
+      .catch(error.bind(this));
   },
   verifySession(success, error = this.error) {
     let cookies = new Cookies();

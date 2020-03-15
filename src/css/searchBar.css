@@ -10,7 +10,9 @@
   background-color: #2196f3;
   color: white;
 }
-
+.topnav {
+  position: relative;
+}
 /* Style the search box inside the navigation bar */
 .search-form {
   padding: 6px;
@@ -31,6 +33,11 @@
   margin: 0 auto;
   margin-bottom: 15px;
   width: 500px;
+}
+.bug-button {
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 .fake-link {
   cursor: pointer;

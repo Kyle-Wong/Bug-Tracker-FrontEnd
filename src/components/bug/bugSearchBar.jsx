@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import ModalButton from "../modalButton";
 import "../../css/searchBar.css";
 class BugSearchBar extends Component {
   state = {
@@ -12,6 +13,11 @@ class BugSearchBar extends Component {
     if (!includeResolved) includeResolved = false;
     return (
       <div className="topnav border border-dark">
+        <div className="bug-button">
+          <ModalButton target="modal" className="btn btn-outline-primary">
+            Add new bug
+          </ModalButton>
+        </div>
         <div className="row  mx-auto search-form">
           <input
             type="text"
