@@ -147,6 +147,8 @@ class BugList extends Component {
             return (
               <BugListItem
                 showModal={this.openEditModal.bind(this)}
+                onResolve={this.handleBugResolve.bind(this)}
+                onDelete={this.handleBugDelete.bind(this)}
                 bug={e}
                 key={e.bug_id}
               />
@@ -155,7 +157,7 @@ class BugList extends Component {
         </div>
       );
     } else {
-      return <h1 className="text-center">This project has no bugs.</h1>;
+      return <h1 className="text-center"></h1>;
     }
   }
   uniqueTags(bugs) {
@@ -170,18 +172,48 @@ class BugList extends Component {
   }
   handleCheckEvent(e) {
     const { includeResolved } = this.state;
+    console.log(!includeResolved);
     this.setState({ includeResolved: !includeResolved });
   }
   handleSearch(searchString) {
     const { page, order, direction, includeResolved } = this.state;
-    this.bugSearch(
-      searchString,
+    const newState = {
+      search: searchString,
       page,
       order,
       direction,
-      includeResolved,
-      parseInt(this.props.id)
-    );
+      includeResolved
+    };
+    this.setState(newState, () => {
+      this.refreshSearch();
+    });
+  }
+  handleBugResolve(bug_id, resolved) {
+    const project_id = parseInt(this.props.id);
+    const url = Global.gatewayUrl("/prjt/bug/resolve");
+    const body = {
+      project_id,
+      bug_id,
+      resolved
+    };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      window.location.reload();
+    });
+  }
+  handleBugDelete(bug_id) {
+    const project_id = parseInt(this.props.id);
+    const url = Global.gatewayUrl("/prjt/bug/delete");
+    const body = {
+      project_id,
+      bug_id
+    };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      window.location.reload();
+    });
   }
   handleBugAdd(modalState) {
     const { title, body, priority, tags } = modalState;

@@ -5,8 +5,9 @@ import "../../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {
-    const { bug, showModal } = this.props;
+    const { bug, showModal, onDelete, onResolve } = this.props;
     const bodyID = `body${bug.bug_id}`;
+    console.log(bug);
     return (
       <React.Fragment>
         <div className="card bug" style={{ marginBottom: "10px" }}>
@@ -21,7 +22,7 @@ class BugListItem extends Component {
               {Global.convertToDate(bug.create_time)}
             </div>
             <div className="col-sm-1">{bug.priority}</div>
-            <div className="col-sm-1">{bug.resolved === 1 ? "yes" : "no"}</div>
+            <div className="col-sm-1">{bug.resolved === 1 ? "Yes" : "No"}</div>
           </div>
           <div className=" collapse" id={bodyID}>
             <div className="row bug-body-header">
@@ -47,10 +48,20 @@ class BugListItem extends Component {
                   Edit
                 </button>
               </div>
-              <div className="btn btn-outline-secondary mx-2">
-                Mark As Resolved
+              <div
+                className="btn btn-outline-secondary mx-2"
+                onClick={() => {
+                  onResolve(bug.bug_id, bug.resolved === 1 ? 0 : 1);
+                }}
+              >
+                Mark As {bug.resolved === 1 ? "Unresolved" : "resolved"}
               </div>
-              <div className="btn btn-outline-danger">
+              <div
+                className="btn btn-outline-danger"
+                onClick={() => {
+                  onDelete(bug.bug_id);
+                }}
+              >
                 <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
               </div>
             </div>

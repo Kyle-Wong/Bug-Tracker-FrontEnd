@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import ModalButton from "../modalButton";
 import "../../css/searchBar.css";
+import Global from "../../global";
 class BugSearchBar extends Component {
   state = {
-    search: "",
+    search: Global.getQuery(window.location.search).search,
     tag: ""
   };
   render() {
@@ -79,6 +80,7 @@ class BugSearchBar extends Component {
       </div>
     );
   }
+  componentDidMount() {}
   updateTagForm(e) {
     this.setState({ tag: e.target.value });
   }

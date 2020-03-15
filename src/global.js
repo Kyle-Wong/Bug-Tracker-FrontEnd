@@ -31,6 +31,10 @@ const Global = {
     baseUrl += "?" + QueryString.stringify(queryJs);
     return baseUrl;
   },
+  getQuery(url) {
+    let queryString = url.slice(1);
+    return QueryString.parse(queryString);
+  },
   corsHeader(header, method) {
     header["Content-Type"] = "application/json";
     header["Origin"] = "http://localhost:3000";
