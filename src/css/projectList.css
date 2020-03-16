@@ -4,3 +4,9 @@
   border: 2px solid black;
   background-color: whitesmoke;
 }
+.project-list-item {
+  font-size: 14px;
+}
+.project-header {
+  font-size: 18px;
+}

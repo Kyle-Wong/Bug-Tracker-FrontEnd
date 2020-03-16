@@ -5,6 +5,7 @@ import BugOrderBar from "./bugOrderBar";
 import BugSearchBar from "./bugSearchBar";
 import BugAddModal from "./bugAddModal";
 import BugEditModal from "./bugEditModal";
+import Pagination from "../pagination";
 import "../../css/bugList.css";
 const QueryString = require("querystring");
 
@@ -13,6 +14,7 @@ class BugList extends Component {
   direction = { asc: "asc", desc: "desc" };
   addModalId = "add-modal";
   editModalId = "edit-modal";
+  bugsPerPage = 10;
   state = {
     bugs: [],
     search: "",
@@ -22,10 +24,17 @@ class BugList extends Component {
     includeResolved: false,
     project_id: parseInt(this.props.id),
     uniqueTags: [],
-    editModal: { show: false }
+    editModal: { show: false },
+    bugCount: 0
   };
   render() {
-    const { uniqueTags, includeResolved, editModal } = this.state;
+    const {
+      uniqueTags,
+      includeResolved,
+      editModal,
+      page,
+      bugCount
+    } = this.state;
     return (
       <div className="mx-auto bug-list">
         <BugAddModal
@@ -38,6 +47,11 @@ class BugList extends Component {
           onSubmit={this.handleBugEdit.bind(this)}
           modal={editModal}
           closeModal={this.closeEditModal.bind(this)}
+        />
+        <Pagination
+          pageIndex={page}
+          pageCount={Math.floor(bugCount / this.bugsPerPage) + 1}
+          onClick={this.handlePageClick.bind(this)}
         />
         <BugSearchBar
           uniqueTags={uniqueTags}
@@ -67,7 +81,7 @@ class BugList extends Component {
     } = QueryString.parse(queryString);
     this.setState({
       search,
-      page,
+      page: parseInt(page),
       order,
       direction,
       includeResolved: includeResolved === "true"
@@ -81,6 +95,7 @@ class BugList extends Component {
       parseInt(this.props.id),
       []
     );
+    this.getBugCount();
   }
   orderButton(type) {
     let { order, direction } = this.state;
@@ -269,6 +284,19 @@ class BugList extends Component {
     const copy = { ...this.state.editModal };
     copy.show = false;
     this.setState({ editModal: copy });
+  }
+  handlePageClick(value) {
+    this.setState({ page: value }, this.refreshSearch);
+  }
+  getBugCount() {
+    const url = Global.gatewayUrl("prjt/project/bugCount");
+    const project_id = parseInt(this.props.id);
+    const body = { project_id };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      this.setState({ bugCount: parseInt(data.bug_count.bug_count) });
+    });
   }
 }
 

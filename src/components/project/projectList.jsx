@@ -3,13 +3,11 @@ import Global from "../../global";
 import ProjectListItem from "./projectListItem";
 class ProjectList extends Component {
   state = {
-    projects: [],
-    visible: false
+    projects: []
   };
   render() {
     return (
       <div>
-        <h1 className="text-center">My Projects</h1>
         <div className="mx-auto">{this.renderProjects()}</div>
       </div>
     );
@@ -30,6 +28,7 @@ class ProjectList extends Component {
     console.log(res);
     this.setState({ projects: res.projects });
   }
+
   renderProjects() {
     const { projects } = this.state;
     const { onDelete } = this.props;

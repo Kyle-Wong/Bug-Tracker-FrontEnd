@@ -7,7 +7,6 @@ class BugListItem extends Component {
   render() {
     const { bug, showModal, onDelete, onResolve } = this.props;
     const bodyID = `body${bug.bug_id}`;
-    console.log(bug);
     return (
       <React.Fragment>
         <div className="card bug" style={{ marginBottom: "10px" }}>
@@ -77,7 +76,7 @@ class BugListItem extends Component {
         <span>
           {tag_names.map(e => {
             return (
-              <span className="tag badge badge-pill badge-info" key={e}>
+              <span className="tag badge badge-pill badge-primary" key={e}>
                 {e}
               </span>
             );
@@ -85,7 +84,7 @@ class BugListItem extends Component {
         </span>
       );
     } else {
-      return <span className="tag badge badge-pill badge-info">None</span>;
+      return <span className="tag badge badge-pill badge-primary">None</span>;
     }
   }
   workers() {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Global from "./global";
+import "./css/master.css";
 import "./css/navbar.css";
 import MyNavbar from "./components/myNavbar";
 
@@ -19,26 +20,27 @@ class App extends Component {
   };
   render() {
     return (
-      <React.Fragment>
+      <div>
         <MyNavbar
           userLoggedIn={this.state.userLoggedIn}
           handleLogOut={this.logOut.bind(this)}
         />
-
-        <BrowserRouter>
-          <div>
-            <Switch>
-              <Route path="/" component={Home} exact />
-              <Route path="/register" component={Register} />
-              <Route path="/registerSuccess" component={RegisterSuccess} />
-              <Route path="/login" component={Login} />
-              <Route exact path="/projects" component={Projects} />
-              <Route path="/projects/:projectID" component={ViewProject} />
-              <Route component={Error} />
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </React.Fragment>
+        <div className="back-wall">
+          <BrowserRouter>
+            <div>
+              <Switch>
+                <Route path="/" component={Home} exact />
+                <Route path="/register" component={Register} />
+                <Route path="/registerSuccess" component={RegisterSuccess} />
+                <Route path="/login" component={Login} />
+                <Route exact path="/projects" component={Projects} />
+                <Route path="/projects/:projectID" component={ViewProject} />
+                <Route component={Error} />
+              </Switch>
+            </div>
+          </BrowserRouter>
+        </div>
+      </div>
     );
   }
   componentDidMount() {

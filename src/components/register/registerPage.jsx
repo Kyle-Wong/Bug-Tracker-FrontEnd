@@ -171,7 +171,7 @@ class RegisterPage extends Component {
   success(res) {
     alert("Success");
     console.log(res);
-    window.location.href = Global.pageUrl("login");
+    window.location.href = Global.pageUrl("registerSuccess");
   }
   error(res) {
     console.log(res);

@@ -5,7 +5,7 @@ class ProjectAdd extends Component {
   render() {
     const { onTitleChange, onBodyChange, onSubmit } = this.props;
     return (
-      <div className="project">
+      <div className="project border border-dark rounded">
         <div>
           <h3 htmlFor="exampleFormControlTextarea1">Create New Project</h3>
         </div>

@@ -10,9 +10,10 @@ class ViewProjectPage extends Component {
     const { project_name } = this.state.project;
     return (
       <div style={{ marginBottom: "150px" }}>
-        <h1>Project #{projectID}</h1>
-
-        <h3>{project_name}</h3>
+        <div className="w3-blue w3-center" style={{ padding: "50px 16px" }}>
+          {" "}
+          <h1 className="text-center">{project_name}</h1>
+        </div>
         <BugList id={projectID} />
       </div>
     );
