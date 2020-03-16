@@ -9,16 +9,18 @@ class BugSearchBar extends Component {
   };
   render() {
     const { onSearch } = this.props;
-    let { includeResolved, onCheck, modalId } = this.props;
+    let { includeResolved, onCheck, modalId, canEdit } = this.props;
 
     if (!includeResolved) includeResolved = false;
     return (
       <div className="topnav border border-dark">
-        <div className="bug-button">
-          <ModalButton target={modalId} className="btn btn-outline-primary">
-            Add new bug
-          </ModalButton>
-        </div>
+        {canEdit && (
+          <div className="bug-button">
+            <ModalButton target={modalId} className="btn btn-outline-primary">
+              Add new bug
+            </ModalButton>
+          </div>
+        )}
         <div className="row  mx-auto search-form">
           <input
             type="text"

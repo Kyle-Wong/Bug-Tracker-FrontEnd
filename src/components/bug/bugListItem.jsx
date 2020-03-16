@@ -5,7 +5,7 @@ import "../../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {
-    const { bug, showModal, onDelete, onResolve } = this.props;
+    const { bug, showModal, onDelete, onResolve, canEdit } = this.props;
     const bodyID = `body${bug.bug_id}`;
     return (
       <React.Fragment>
@@ -28,42 +28,41 @@ class BugListItem extends Component {
               <div className="col tags">
                 <div>Tags:&nbsp;{this.tags()}</div>
               </div>
-              <div className="col workers">
-                <div>Assigned Workers:&nbsp;{this.workers()}</div>
-              </div>
             </div>
             <hr />
             <div className="card-body" style={{ paddingTop: "0px" }}>
               {bug.body}
             </div>
-            <div className="card-footer row mx-0">
-              <div className="ml-auto">
-                <button
+            {canEdit && (
+              <div className="card-footer row mx-0">
+                <div className="ml-auto">
+                  <button
+                    onClick={() => {
+                      showModal(bug);
+                    }}
+                    className="btn btn-outline-primary"
+                  >
+                    Edit
+                  </button>
+                </div>
+                <div
+                  className="btn btn-outline-secondary mx-2"
                   onClick={() => {
-                    showModal(bug);
+                    onResolve(bug.bug_id, bug.resolved === 1 ? 0 : 1);
                   }}
-                  className="btn btn-outline-primary"
                 >
-                  Edit
-                </button>
+                  Mark As {bug.resolved === 1 ? "Unresolved" : "resolved"}
+                </div>
+                <div
+                  className="btn btn-outline-danger"
+                  onClick={() => {
+                    onDelete(bug.bug_id);
+                  }}
+                >
+                  <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
+                </div>
               </div>
-              <div
-                className="btn btn-outline-secondary mx-2"
-                onClick={() => {
-                  onResolve(bug.bug_id, bug.resolved === 1 ? 0 : 1);
-                }}
-              >
-                Mark As {bug.resolved === 1 ? "Unresolved" : "resolved"}
-              </div>
-              <div
-                className="btn btn-outline-danger"
-                onClick={() => {
-                  onDelete(bug.bug_id);
-                }}
-              >
-                <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </React.Fragment>

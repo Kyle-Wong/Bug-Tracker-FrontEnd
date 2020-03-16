@@ -12,7 +12,7 @@ import RegisterSuccess from "./components/register/registerSuccessPage";
 import Login from "./components/login/loginPage";
 import Projects from "./components/project/projectsPage";
 import ViewProject from "./components/bug/ViewProjectPage";
-
+import Invitation from "./components/invitation/invitationsPage";
 class App extends Component {
   state = {
     userLoggedIn: false,
@@ -35,6 +35,7 @@ class App extends Component {
                 <Route path="/login" component={Login} />
                 <Route exact path="/projects" component={Projects} />
                 <Route path="/projects/:projectID" component={ViewProject} />
+                <Route path="/invitations" component={Invitation} />
                 <Route component={Error} />
               </Switch>
             </div>

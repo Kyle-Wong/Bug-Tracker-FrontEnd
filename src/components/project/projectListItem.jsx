@@ -37,7 +37,7 @@ class ProjectListItem extends Component {
               <div className="col-sm-3 align-self-center ml-auto">
                 Created by: {root_user}
               </div>
-              <div className="col-sm-1 align-self-center">
+              <div className="col-smd1 align-self-center">
                 <button
                   type="button"
                   className="btn btn-outline-danger"
@@ -45,7 +45,7 @@ class ProjectListItem extends Component {
                     onDelete(project_id);
                   }}
                 >
-                  Delete
+                  <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
                 </button>
               </div>
             </div>

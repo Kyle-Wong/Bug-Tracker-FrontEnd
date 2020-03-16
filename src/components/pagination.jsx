@@ -58,7 +58,7 @@ const Pagination = props => {
 
           <li
             className={
-              pageIndex === parseInt(pageCount)
+              pageIndex >= parseInt(pageCount) - 1
                 ? "page-item disabled"
                 : "page-item"
             }

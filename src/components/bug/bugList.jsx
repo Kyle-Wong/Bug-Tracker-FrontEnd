@@ -25,7 +25,8 @@ class BugList extends Component {
     project_id: parseInt(this.props.id),
     uniqueTags: [],
     editModal: { show: false },
-    bugCount: 0
+    bugCount: 0,
+    canEdit: false
   };
   render() {
     const {
@@ -33,7 +34,8 @@ class BugList extends Component {
       includeResolved,
       editModal,
       page,
-      bugCount
+      bugCount,
+      canEdit
     } = this.state;
     return (
       <div className="mx-auto bug-list">
@@ -59,6 +61,7 @@ class BugList extends Component {
           onCheck={this.handleCheckEvent.bind(this)}
           onSearch={this.handleSearch.bind(this)}
           modalId={this.addModalId}
+          canEdit={canEdit}
         />
         <hr />
         <BugOrderBar
@@ -96,6 +99,7 @@ class BugList extends Component {
       []
     );
     this.getBugCount();
+    this.getAccessLevel();
   }
   orderButton(type) {
     let { order, direction } = this.state;
@@ -154,7 +158,7 @@ class BugList extends Component {
   }
 
   renderBugs() {
-    const { bugs } = this.state;
+    const { bugs, canEdit } = this.state;
     if (bugs.length !== 0) {
       return (
         <div>
@@ -164,6 +168,7 @@ class BugList extends Component {
                 showModal={this.openEditModal.bind(this)}
                 onResolve={this.handleBugResolve.bind(this)}
                 onDelete={this.handleBugDelete.bind(this)}
+                canEdit={canEdit}
                 bug={e}
                 key={e.bug_id}
               />
@@ -296,6 +301,19 @@ class BugList extends Component {
     Global.fetch(url, options, data => {
       console.log(data);
       this.setState({ bugCount: parseInt(data.bug_count.bug_count) });
+    });
+  }
+  getAccessLevel() {
+    const url = Global.gatewayUrl("prjt/project/accessLevel");
+    const project_id = parseInt(this.props.id);
+
+    const body = {
+      project_id
+    };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(url, options, data => {
+      console.log(data);
+      this.setState({ canEdit: data.access_level <= 1 });
     });
   }
 }

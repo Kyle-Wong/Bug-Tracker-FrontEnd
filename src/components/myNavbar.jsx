@@ -8,13 +8,18 @@ class MyNavbar extends Component {
     return (
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand className="nav-header" href="/">
-          React-Bootstrap
+          Kyle's Bug Tracker
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="mr-auto nav-items text-center">
+          <Nav className="nav-items text-center">
             {userLoggedIn && <Nav.Link href="/projects">My Projects</Nav.Link>}
+          </Nav>
+          <Nav className="mr-auto nav-items text-center">
+            {userLoggedIn && (
+              <Nav.Link href="/invitations">Invitations</Nav.Link>
+            )}
           </Nav>
           <Nav
             className="text-center"

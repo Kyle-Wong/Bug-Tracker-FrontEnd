@@ -47,7 +47,7 @@ class ProjectList extends Component {
         </div>
       );
     } else {
-      return <h1 className="text-center">You have no projects.</h1>;
+      return <h1 className="text-center my-5">No Projects Yet</h1>;
     }
   }
 }
