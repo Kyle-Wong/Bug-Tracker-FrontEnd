@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../../css/register.css";
 import FormInput from "./formInput";
 import Global from "../../global.js";
+import QueryString from "querystring";
 class RegisterPage extends Component {
   state = {
     username: "",
@@ -23,12 +24,13 @@ class RegisterPage extends Component {
                 <div className="card-img-left d-none d-md-flex"></div>
                 <div className="card-body">
                   <h1 className="card-title text-center">Register</h1>
+
                   <form
                     className="form-signin"
                     onSubmit={this.submit.bind(this)}
                   >
                     {this.state.usernameError.length > 0 && (
-                      <div className="warning bg-danger">
+                      <div className="alert border border-danger rounded alert-danger ">
                         {this.state.usernameError}
                       </div>
                     )}
@@ -47,7 +49,7 @@ class RegisterPage extends Component {
                       </FormInput>
                     </div>
                     {this.state.emailError.length > 0 && (
-                      <div className="warning bg-danger">
+                      <div className="alert border border-danger rounded alert-danger ">
                         {this.state.emailError}
                       </div>
                     )}
@@ -68,7 +70,7 @@ class RegisterPage extends Component {
 
                     <hr />
                     {this.state.passwordError.length > 0 && (
-                      <div className="warning bg-danger">
+                      <div className="alert border border-danger rounded alert-danger ">
                         {this.state.passwordError}
                       </div>
                     )}
@@ -171,7 +173,9 @@ class RegisterPage extends Component {
   success(res) {
     alert("Success");
     console.log(res);
-    window.location.href = Global.pageUrl("registerSuccess");
+    let url = Global.pageUrl("login");
+    url = Global.addQuery(url, { success: true });
+    window.location.href = url;
   }
   error(res) {
     console.log(res);

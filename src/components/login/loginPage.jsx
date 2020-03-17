@@ -8,7 +8,8 @@ class LoginPage extends Component {
   state = {
     username: "",
     password: "",
-    loginError: ""
+    loginError: "",
+    registerSuccess: false
   };
   render() {
     return (
@@ -16,6 +17,12 @@ class LoginPage extends Component {
         <div className="container">
           <div className="row justify-content-center">
             <div className="col-lg-8 col-lg-offset-4 mx-auto">
+              {this.state.registerSuccess && (
+                <div className="alert border border-primary rounded alert-primary mt-3">
+                  Your account has been successfully registered. Please log in
+                  below.
+                </div>
+              )}
               <div className="card card-signin flex-row my-6">
                 <div className="card-img-left d-none d-md-flex"></div>
                 <div className="card-body">
@@ -25,7 +32,7 @@ class LoginPage extends Component {
                     onSubmit={this.submit.bind(this)}
                   >
                     {this.state.loginError.length > 0 && (
-                      <div className="warning bg-danger">
+                      <div className="alert border border-danger rounded alert-danger ">
                         {this.state.loginError}
                       </div>
                     )}
@@ -77,6 +84,12 @@ class LoginPage extends Component {
         </div>
       </div>
     );
+  }
+  componentDidMount() {
+    console.log(Global.getQuery(window.location.search));
+    let registerSuccess = Global.getQuery(window.location.search).success;
+    if (typeof registerSuccess === "undefined") registerSuccess = false;
+    this.setState({ registerSuccess });
   }
   submit(e) {
     e.preventDefault();
