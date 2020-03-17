@@ -76,6 +76,12 @@ const Global = {
       error.code === 408 ||
       error.code === 409
     ) {
+      if (
+        window.location.href === Global.pageUrl("login") ||
+        window.location.href === Global.pageUrl("") ||
+        window.location.href === Global.pageUrl("register")
+      )
+        return;
       let x = window.location.href.split("/");
       let components = {
         scheme: x[0] + "//",
@@ -150,6 +156,24 @@ const Global = {
         if (res.code === 403) {
           window.location.href = this.pageUrl("login");
         } else error(res);
+      }
+    );
+  },
+  getAccessLevel(project_id, success, error = this.error) {
+    const url = Global.gatewayUrl("prjt/project/accessLevel");
+
+    const body = {
+      project_id
+    };
+    const options = Global.options({}, body, "POST");
+    Global.fetch(
+      url,
+      options,
+      data => {
+        success(data);
+      },
+      data => {
+        error(data);
       }
     );
   },

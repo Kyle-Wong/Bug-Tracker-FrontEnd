@@ -45,7 +45,9 @@ class InvitationsPage extends Component {
   resolveInvitation(accepted, project_id) {
     let url = Global.gatewayUrl("prjt/invite/resolve");
     url = Global.addQuery(url, { accepted });
+    const username = Global.getSession().username;
     const body = {
+      username,
       project_id
     };
     const options = Global.options({}, body, "POST");

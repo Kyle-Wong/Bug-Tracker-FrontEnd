@@ -12,6 +12,7 @@ import Login from "./components/login/loginPage";
 import Projects from "./components/project/projectsPage";
 import ViewProject from "./components/bug/ViewProjectPage";
 import Invitation from "./components/invitation/invitationsPage";
+import Permissions from "./components/permission/permissionsPage";
 class App extends Component {
   state = {
     userLoggedIn: false,
@@ -31,8 +32,14 @@ class App extends Component {
                 <Route path="/" component={Home} exact />
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
-                <Route exact path="/projects" component={Projects} />
+                <Route
+                  path="/projects/:projectID/permissions"
+                  component={Permissions}
+                />
                 <Route path="/projects/:projectID" component={ViewProject} />
+
+                <Route exact path="/projects" component={Projects} />
+
                 <Route path="/invitations" component={Invitation} />
                 <Route component={Error} />
               </Switch>
@@ -61,6 +68,7 @@ class App extends Component {
       data => {
         console.log(data);
         this.setState({ userLoggedIn: false });
+        Global.error(data);
       }
     );
   }

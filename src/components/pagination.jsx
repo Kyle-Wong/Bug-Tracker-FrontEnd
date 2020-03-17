@@ -15,7 +15,7 @@ const Pagination = props => {
     if (startIndex + i < pageCount) pageNumbers[i] = startIndex + i;
   }
   return (
-    <div>
+    <div className="my-3">
       <nav aria-label="...">
         <ul className="pagination justify-content-center">
           <li
@@ -33,7 +33,7 @@ const Pagination = props => {
               tabIndex="-1"
               aria-disabled="true"
             >
-              Previous
+              Prev
             </a>
           </li>
           {pageNumbers.map(e => {

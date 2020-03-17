@@ -9,12 +9,12 @@ class BugSearchBar extends Component {
   };
   render() {
     const { onSearch } = this.props;
-    let { includeResolved, onCheck, modalId, canEdit } = this.props;
+    let { includeResolved, onCheck, modalId, accessLevel } = this.props;
 
     if (!includeResolved) includeResolved = false;
     return (
       <div className="topnav border border-dark">
-        {canEdit && (
+        {accessLevel <= 1 && (
           <div className="bug-button">
             <ModalButton target={modalId} className="btn btn-outline-primary">
               Add new bug

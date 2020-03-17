@@ -1,0 +1,18 @@
+.bug-nav-item-active {
+  border-bottom: 2px solid white;
+  cursor: pointer;
+  color: white;
+  font-size: 20px;
+}
+.bug-nav-item {
+  cursor: pointer;
+  color: white;
+  border-bottom: 2px solid transparent;
+
+  font-size: 20px;
+  transition: 0.25s;
+}
+.bug-nav-item:hover {
+  border-bottom: 2px solid gray;
+  color: gainsboro;
+}

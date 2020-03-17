@@ -6,6 +6,7 @@ import BugSearchBar from "./bugSearchBar";
 import BugAddModal from "./bugAddModal";
 import BugEditModal from "./bugEditModal";
 import Pagination from "../pagination";
+import BugNavBar from "./bugNavBar";
 import "../../css/bugList.css";
 const QueryString = require("querystring");
 
@@ -14,7 +15,7 @@ class BugList extends Component {
   direction = { asc: "asc", desc: "desc" };
   addModalId = "add-modal";
   editModalId = "edit-modal";
-  bugsPerPage = 10;
+  bugsPerPage = 20;
   state = {
     bugs: [],
     search: "",
@@ -25,8 +26,7 @@ class BugList extends Component {
     project_id: parseInt(this.props.id),
     uniqueTags: [],
     editModal: { show: false },
-    bugCount: 0,
-    accessLevel: 3
+    bugCount: 0
   };
   render() {
     const {
@@ -34,9 +34,9 @@ class BugList extends Component {
       includeResolved,
       editModal,
       page,
-      bugCount,
-      accessLevel
+      bugCount
     } = this.state;
+    const { accessLevel } = this.props;
     return (
       <div className="mx-auto bug-list">
         <BugAddModal
@@ -70,6 +70,11 @@ class BugList extends Component {
           onClick={this.orderButton.bind(this)}
         />
         {this.renderBugs()}
+        <Pagination
+          pageIndex={page}
+          pageCount={Math.floor(bugCount / this.bugsPerPage) + 1}
+          onClick={this.handlePageClick.bind(this)}
+        />
       </div>
     );
   }
@@ -99,7 +104,6 @@ class BugList extends Component {
       []
     );
     this.getBugCount();
-    this.getAccessLevel();
   }
   orderButton(type) {
     let { order, direction } = this.state;
@@ -158,7 +162,8 @@ class BugList extends Component {
   }
 
   renderBugs() {
-    const { bugs, accessLevel } = this.state;
+    const { bugs } = this.state;
+    const { accessLevel } = this.props;
     if (bugs.length !== 0) {
       return (
         <div>
@@ -301,19 +306,6 @@ class BugList extends Component {
     Global.fetch(url, options, data => {
       console.log(data);
       this.setState({ bugCount: parseInt(data.bug_count.bug_count) });
-    });
-  }
-  getAccessLevel() {
-    const url = Global.gatewayUrl("prjt/project/accessLevel");
-    const project_id = parseInt(this.props.id);
-
-    const body = {
-      project_id
-    };
-    const options = Global.options({}, body, "POST");
-    Global.fetch(url, options, data => {
-      console.log(data);
-      this.setState({ canEdit: data.access_level <= 1 });
     });
   }
 }

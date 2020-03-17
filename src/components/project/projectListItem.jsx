@@ -16,7 +16,6 @@ class ProjectListItem extends Component {
     const { onDelete, accessLevel } = this.props;
     return (
       <React.Fragment>
-        <ConfirmDeleteWindow id={`modal${project_id}`} />
         <div className="project-list-item card my-5 border border-dark">
           <div className="card-header">
             <div className="container-fluid row ">
