@@ -11,7 +11,7 @@ class PendingInvitationList extends Component {
           <div>
             <div>
               <h3>
-                <u>Pending Invitations</u>
+                <u>Pending Sent Invitations</u>
               </h3>
             </div>
             <div>{this.renderInvitations()}</div>

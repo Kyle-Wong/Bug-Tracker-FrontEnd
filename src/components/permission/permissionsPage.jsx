@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import InviteUserInput from "./inviteUserInput";
 import PermissionList from "./permissionList";
 import PendingInvitationList from "./pendingInvitationList";
+import BugNavBar from "../bug/bugNavBar";
 import Global from "../../global.js";
 class PermissionsPage extends Component {
   state = {
@@ -18,6 +19,11 @@ class PermissionsPage extends Component {
           {" "}
           <h1 className="text-center">Manage Permissions</h1>
         </div>
+        <BugNavBar
+          defaultSelected="permissions"
+          onBugClick={this.goToBugsPage.bind(this)}
+          onPermissionClick={() => {}}
+        />
         <div
           className="mx-auto"
           style={{ maxWidth: "650px", marginBottom: "150px" }}
@@ -92,6 +98,12 @@ class PermissionsPage extends Component {
       default:
         Global.error(data);
     }
+  }
+  goToBugsPage() {
+    window.location.href =
+      "/projects/" +
+      this.props.match.params.projectID +
+      "?search=&page=0&order=title&direction=asc&includeResolved=false";
   }
 }
 
