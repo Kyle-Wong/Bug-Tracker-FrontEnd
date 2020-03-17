@@ -13,7 +13,7 @@ class ProjectListItem extends Component {
       root_user,
       body
     } = this.props.project;
-    const { onDelete } = this.props;
+    const { onDelete, accessLevel } = this.props;
     return (
       <React.Fragment>
         <ConfirmDeleteWindow id={`modal${project_id}`} />
@@ -38,15 +38,18 @@ class ProjectListItem extends Component {
                 Created by: {root_user}
               </div>
               <div className="col-smd1 align-self-center">
-                <button
-                  type="button"
-                  className="btn btn-outline-danger"
-                  onClick={() => {
-                    onDelete(project_id);
-                  }}
-                >
-                  <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
-                </button>
+                {accessLevel === 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-outline-danger"
+                    onClick={() => {
+                      onDelete(project_id);
+                    }}
+                  >
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                    &nbsp;Delete
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -55,6 +58,7 @@ class ProjectListItem extends Component {
       </React.Fragment>
     );
   }
+  componentDidMount() {}
 }
 
 export default ProjectListItem;

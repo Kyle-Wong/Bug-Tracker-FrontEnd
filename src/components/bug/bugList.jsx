@@ -26,7 +26,7 @@ class BugList extends Component {
     uniqueTags: [],
     editModal: { show: false },
     bugCount: 0,
-    canEdit: false
+    accessLevel: 3
   };
   render() {
     const {
@@ -35,7 +35,7 @@ class BugList extends Component {
       editModal,
       page,
       bugCount,
-      canEdit
+      accessLevel
     } = this.state;
     return (
       <div className="mx-auto bug-list">
@@ -61,7 +61,7 @@ class BugList extends Component {
           onCheck={this.handleCheckEvent.bind(this)}
           onSearch={this.handleSearch.bind(this)}
           modalId={this.addModalId}
-          canEdit={canEdit}
+          accessLevel={accessLevel}
         />
         <hr />
         <BugOrderBar
@@ -158,7 +158,7 @@ class BugList extends Component {
   }
 
   renderBugs() {
-    const { bugs, canEdit } = this.state;
+    const { bugs, accessLevel } = this.state;
     if (bugs.length !== 0) {
       return (
         <div>
@@ -168,7 +168,7 @@ class BugList extends Component {
                 showModal={this.openEditModal.bind(this)}
                 onResolve={this.handleBugResolve.bind(this)}
                 onDelete={this.handleBugDelete.bind(this)}
-                canEdit={canEdit}
+                accessLevel={accessLevel}
                 bug={e}
                 key={e.bug_id}
               />

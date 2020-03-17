@@ -5,7 +5,7 @@ import "../../css/bugListItem.css";
 class BugListItem extends Component {
   state = {};
   render() {
-    const { bug, showModal, onDelete, onResolve, canEdit } = this.props;
+    const { bug, showModal, onDelete, onResolve, accessLevel } = this.props;
     const bodyID = `body${bug.bug_id}`;
     return (
       <React.Fragment>
@@ -20,7 +20,7 @@ class BugListItem extends Component {
             <div className=" col-sm-3">
               {Global.convertToDate(bug.create_time)}
             </div>
-            <div className="col-sm-1">{bug.priority}</div>
+            <div className="col-sm-2">{this.priorityLevel(bug.priority)}</div>
             <div className="col-sm-1">{bug.resolved === 1 ? "Yes" : "No"}</div>
           </div>
           <div className=" collapse" id={bodyID}>
@@ -33,7 +33,7 @@ class BugListItem extends Component {
             <div className="card-body" style={{ paddingTop: "0px" }}>
               {bug.body}
             </div>
-            {canEdit && (
+            {accessLevel <= 1 && (
               <div className="card-footer row mx-0">
                 <div className="ml-auto">
                   <button
@@ -53,14 +53,17 @@ class BugListItem extends Component {
                 >
                   Mark As {bug.resolved === 1 ? "Unresolved" : "resolved"}
                 </div>
-                <div
-                  className="btn btn-outline-danger"
-                  onClick={() => {
-                    onDelete(bug.bug_id);
-                  }}
-                >
-                  <i className="fa fa-trash" aria-hidden="true"></i>&nbsp;Delete
-                </div>
+                {
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={() => {
+                      onDelete(bug.bug_id);
+                    }}
+                  >
+                    <i className="fa fa-trash" aria-hidden="true"></i>
+                    &nbsp;Delete
+                  </div>
+                }
               </div>
             )}
           </div>
@@ -96,6 +99,22 @@ class BugListItem extends Component {
   }
   resolved() {
     return this.props.resolved === 1 ? "Resolved" : "Unresolved";
+  }
+  priorityLevel(i) {
+    switch (i) {
+      case 0:
+        return "Highest";
+      case 1:
+        return "High";
+      case 2:
+        return "Medium";
+      case 3:
+        return "Low";
+      case 4:
+        return "Lowest";
+      default:
+        return "Lowest";
+    }
   }
 }
 

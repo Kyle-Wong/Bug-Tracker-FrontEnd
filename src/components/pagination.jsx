@@ -15,10 +15,11 @@ const Pagination = props => {
     if (startIndex + i < pageCount) pageNumbers[i] = startIndex + i;
   }
   return (
-    <div style={{ cursor: "pointer" }}>
+    <div>
       <nav aria-label="...">
         <ul className="pagination justify-content-center">
           <li
+            style={{ cursor: "pointer" }}
             className={pageIndex === 0 ? "page-item disabled" : "page-item"}
             onClick={() => {
               if (pageIndex <= 0) return;
@@ -38,6 +39,7 @@ const Pagination = props => {
           {pageNumbers.map(e => {
             return (
               <li
+                style={{ cursor: "pointer" }}
                 className={
                   e === parseInt(pageIndex) ? "page-item active" : "page-item"
                 }
@@ -57,6 +59,7 @@ const Pagination = props => {
           })}
 
           <li
+            style={{ cursor: "pointer" }}
             className={
               pageIndex >= parseInt(pageCount) - 1
                 ? "page-item disabled"

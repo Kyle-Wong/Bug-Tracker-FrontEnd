@@ -43,7 +43,7 @@ class BugOrderBar extends Component {
         </div>
         <div className="col-sm-1"></div>
         <div
-          className="col-sm-1 clickable"
+          className="col-sm-2 clickable"
           onClick={() => {
             onClick("priority");
           }}

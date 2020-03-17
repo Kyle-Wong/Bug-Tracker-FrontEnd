@@ -74,7 +74,7 @@ class App extends Component {
     };
     const options = Global.options({}, body, "POST");
     Global.fetch(url, options, data => {
-      window.location.href = "";
+      window.location.href = "/";
     });
   }
 }

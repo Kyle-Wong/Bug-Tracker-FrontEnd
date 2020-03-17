@@ -25,7 +25,7 @@ class InvitationList extends Component {
   }
   removeInvitation(invitation) {
     let invitations = [...this.state.invitations];
-    invitations.splice(this.state.invitations.indexOf(invitation));
+    invitations.splice(this.state.invitations.indexOf(invitation), 1);
     this.setState({ invitations });
   }
   renderInvitations() {
