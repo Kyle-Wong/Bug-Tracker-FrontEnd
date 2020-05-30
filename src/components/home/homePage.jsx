@@ -3,6 +3,7 @@ import "../../css/home.css";
 class HomePage extends Component {
   state = {};
   render() {
+    const { userLoggedIn } = this.props;
     return (
       <React.Fragment>
         <header
@@ -13,7 +14,7 @@ class HomePage extends Component {
           <p className="w3-xlarge">By Kyle Wong</p>
           <button
             onClick={() => {
-              document.location = "register";
+              document.location = userLoggedIn ? "projects" : "login";
             }}
             className="w3-button w3-white w3-text-black w3-padding-large w3-large w3-margin-top"
           >

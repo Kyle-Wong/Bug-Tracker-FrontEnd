@@ -11,17 +11,17 @@ class RegisterPage extends Component {
     confirmPassword: "",
     usernameError: "",
     emailError: "",
-    passwordError: ""
+    passwordError: "",
   };
 
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container mt-4">
           <div className="row justify-content-center">
             <div className="col-lg-8 col-lg-offset-4 mx-auto">
               <div className="card card-signin flex-row my-6">
-                <div className="card-img-left d-none d-md-flex"></div>
+                <div className="card-img-left d-none d-md-flex sky-img"></div>
                 <div className="card-body">
                   <h1 className="card-title text-center">Register</h1>
 
@@ -130,7 +130,7 @@ class RegisterPage extends Component {
     const { password, confirmPassword } = this.state;
     if (password !== confirmPassword) {
       this.setState({
-        passwordError: "Passwords must match."
+        passwordError: "Passwords must match.",
       });
       return;
     }
@@ -155,23 +155,22 @@ class RegisterPage extends Component {
     const body = {
       username: username,
       email: email,
-      password: password
+      password: password,
     };
     let options = Global.options({}, body, "POST");
     console.log(options);
     Global.fetch(
       url,
       options,
-      res => {
+      (res) => {
         this.success(res);
       },
-      res => {
+      (res) => {
         this.error(res);
       }
     );
   }
   success(res) {
-    alert("Success");
     console.log(res);
     let url = Global.pageUrl("login");
     url = Global.addQuery(url, { success: true });
@@ -181,19 +180,19 @@ class RegisterPage extends Component {
     console.log(res);
     if (res.code === 418) {
       this.setState({
-        usernameError: "Username must be less than 32 characters long."
+        usernameError: "Username must be less than 32 characters long.",
       });
     } else if (res.code === 404) {
       this.setState({
-        usernameError: "Username already exists."
+        usernameError: "Username already exists.",
       });
     } else if (res.code === 419) {
       this.setState({
-        passwordError: "Password must be between 6 and 32 characters."
+        passwordError: "Password must be between 6 and 32 characters.",
       });
     } else if (res.code === 420) {
       this.setState({
-        emailError: "email must be less than 32 characters long."
+        emailError: "email must be less than 32 characters long.",
       });
     }
   }

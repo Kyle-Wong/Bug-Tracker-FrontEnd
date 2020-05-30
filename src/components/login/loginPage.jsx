@@ -14,7 +14,7 @@ class LoginPage extends Component {
   render() {
     return (
       <div>
-        <div className="container">
+        <div className="container mt-4">
           <div className="row justify-content-center">
             <div className="col-lg-8 col-lg-offset-4 mx-auto">
               {this.state.registerSuccess && (
@@ -24,7 +24,7 @@ class LoginPage extends Component {
                 </div>
               )}
               <div className="card card-signin flex-row my-6">
-                <div className="card-img-left d-none d-md-flex"></div>
+                <div className="card-img-left d-none d-md-flex river-img"></div>
                 <div className="card-body">
                   <h1 className="card-title text-center">Login</h1>
                   <form

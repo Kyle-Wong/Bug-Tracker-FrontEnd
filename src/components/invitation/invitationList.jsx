@@ -3,7 +3,7 @@ import InvitationListItem from "./invitationListItem";
 import Global from "../../global.js";
 class InvitationList extends Component {
   state = {
-    invitations: []
+    invitations: null
   };
   render() {
     return (
@@ -30,6 +30,9 @@ class InvitationList extends Component {
   }
   renderInvitations() {
     const { onResolve } = this.props;
+    if (this.state.invitations == null) {
+      return <div></div>;
+    }
     if (this.state.invitations.length <= 0) {
       return <h1 className="text-center my-5">No Invitations Yet</h1>;
     }

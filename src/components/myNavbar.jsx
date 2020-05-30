@@ -26,7 +26,7 @@ class MyNavbar extends Component {
             variant="pills"
             defaultActiveKey="register"
           >
-            {!userLoggedIn && (
+            {userLoggedIn != null && !userLoggedIn && (
               <Nav.Item>
                 <Nav.Link href="register">Sign up</Nav.Link>
               </Nav.Item>
@@ -39,10 +39,14 @@ class MyNavbar extends Component {
   }
   componentDidMount() {
     //check if logged in
+    console.log(this.props.history.action);
   }
 
   signInLink() {
     const { userLoggedIn, handleLogOut } = this.props;
+    if (userLoggedIn == null) {
+      return <div></div>;
+    }
     if (!userLoggedIn) {
       return (
         <Nav.Link eventKey={2} href="/login">

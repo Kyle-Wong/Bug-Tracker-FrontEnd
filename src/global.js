@@ -1,5 +1,6 @@
 import Cookies from "universal-cookie";
 import QueryString from "querystring";
+const logger = require("./logger");
 const gatewayPort = 9874;
 
 const Global = {
@@ -12,7 +13,7 @@ const Global = {
     return {
       scheme: x[0] + "//",
       host: x[2].split(":")[0],
-      port: x[2].split(":")[1]
+      port: x[2].split(":")[1],
     };
   },
   frontendURL() {
@@ -51,14 +52,14 @@ const Global = {
     let cookies = new Cookies();
     return {
       username: cookies.get("username"),
-      session: cookies.get("session")
+      session: cookies.get("session"),
     };
   },
   options(header, body, method) {
     let options = {
       headers: this.corsHeader(header, method),
       method: method,
-      mode: "cors"
+      mode: "cors",
     };
     if (body) {
       options.body = JSON.stringify(body);
@@ -86,7 +87,7 @@ const Global = {
       let components = {
         scheme: x[0] + "//",
         host: x[2].split(":")[0],
-        port: x[2].split(":")[1]
+        port: x[2].split(":")[1],
       };
       const loginUrl = `${components.scheme}${components.host}:${components.port}/login`;
       window.location.href = loginUrl;
@@ -108,7 +109,7 @@ const Global = {
     setTimeout(() => {
       fetch(url, options)
         .then(this.getData)
-        .then(data => {
+        .then((data) => {
           if (data.code >= 400) {
             error(data);
           } else if (data.code === 0) {
@@ -123,8 +124,7 @@ const Global = {
   fetch(url, options, success, error = this.error) {
     fetch(url, options)
       .then(this.getData)
-      .then(data => {
-        console.log(data);
+      .then((data) => {
         if (data.code === 0)
           this.poll(
             data.transaction_id,
@@ -142,17 +142,17 @@ const Global = {
     console.log(url);
     const body = {
       username: cookies.get("username"),
-      sessionID: cookies.get("session")
+      sessionID: cookies.get("session"),
     };
     let options = Global.options({}, body, "POST");
     console.log(options);
     this.fetch(
       url,
       options,
-      res => {
+      (res) => {
         success(res);
       },
-      res => {
+      (res) => {
         if (res.code === 403) {
           window.location.href = this.pageUrl("login");
         } else error(res);
@@ -163,22 +163,27 @@ const Global = {
     const url = Global.gatewayUrl("prjt/project/accessLevel");
 
     const body = {
-      project_id
+      project_id,
     };
     const options = Global.options({}, body, "POST");
     Global.fetch(
       url,
       options,
-      data => {
+      (data) => {
         success(data);
       },
-      data => {
+      (data) => {
         error(data);
       }
     );
   },
   convertToDate(timestamp) {
     return new Date(timestamp).toLocaleString();
-  }
+  },
+  clearCookies() {
+    let cookies = new Cookies();
+    cookies.remove("username");
+    cookies.remove("session");
+  },
 };
 export default Global;

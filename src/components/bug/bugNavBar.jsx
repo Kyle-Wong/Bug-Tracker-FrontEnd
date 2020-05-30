@@ -11,7 +11,7 @@ const BugNavBar = props => {
     }
   };
   return (
-    <div className="w3-blue row justify-content-md-center">
+    <div className="w3-blue row justify-content-md-center bug-navbar">
       <span className=" col col-sm-1 py-2 mb-0 text-right">
         <span onClick={onBugClick} className={navItem("bugs")}>
           Bug List

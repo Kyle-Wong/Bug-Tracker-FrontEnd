@@ -9,7 +9,7 @@ class ProjectsPage extends Component {
     projectTitle: "",
     projectBody: "",
     modalVisible: false,
-    modalID: -1
+    modalID: -1,
   };
   render() {
     return (
@@ -39,6 +39,7 @@ class ProjectsPage extends Component {
       </div>
     );
   }
+
   componentDidMount() {}
   handleTitleUpdate(e) {
     this.setState({ projectTitle: e.target.value });
@@ -58,11 +59,11 @@ class ProjectsPage extends Component {
     const url = Global.gatewayUrl("prjt/project/add");
     const body = {
       project_name: this.state.projectTitle,
-      body: this.state.projectBody
+      body: this.state.projectBody,
     };
     console.log(body);
     const options = Global.options({}, body, "POST");
-    Global.fetch(url, options, res => {
+    Global.fetch(url, options, (res) => {
       console.log(res);
       window.location.reload(false);
     });
@@ -71,11 +72,11 @@ class ProjectsPage extends Component {
     console.log(props);
     const url = Global.gatewayUrl("prjt/project/delete");
     const body = {
-      project_id: props.modalID
+      project_id: props.modalID,
     };
     console.log(body);
     const options = Global.options({}, body, "POST");
-    Global.fetch(url, options, res => {
+    Global.fetch(url, options, (res) => {
       window.location.reload(false);
     });
   }

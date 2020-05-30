@@ -5,7 +5,7 @@ import BugNavBar from "./bugNavBar";
 class ViewProjectPage extends Component {
   state = {
     project: {},
-    accessLevel: 3
+    accessLevel: 3,
   };
   render() {
     const { projectID } = this.props.match.params;
@@ -13,17 +13,21 @@ class ViewProjectPage extends Component {
     const { accessLevel } = this.state;
     return (
       <div style={{ marginBottom: "150px" }}>
-        <div className="w3-blue w3-center" style={{ padding: "50px 16px" }}>
+        <div
+          className="w3-blue w3-center"
+          style={{ padding: "50px 0px", height: "142px", position: "relative" }}
+        >
           {" "}
           <h1 className="text-center">{project_name}</h1>
+          {accessLevel <= 0 && (
+            <BugNavBar
+              defaultSelected="bugs"
+              onBugClick={() => {}}
+              onPermissionClick={this.goToPermissionsPage.bind(this)}
+            />
+          )}
         </div>
-        {accessLevel <= 0 && (
-          <BugNavBar
-            defaultSelected="bugs"
-            onBugClick={() => {}}
-            onPermissionClick={this.goToPermissionsPage.bind(this)}
-          />
-        )}
+
         <BugList accessLevel={accessLevel} id={projectID} />
       </div>
     );
@@ -32,12 +36,13 @@ class ViewProjectPage extends Component {
     this.getMetadata();
     this.getAccessLevel();
   }
+
   getMetadata() {
     const url = Global.gatewayUrl(
       `prjt/project/get/${this.props.match.params.projectID}`
     );
     const options = Global.options({}, null, "GET");
-    Global.fetch(url, options, res => {
+    Global.fetch(url, options, (res) => {
       console.log(res);
       if (res.project.length > 0) this.setState({ project: res.project[0] });
     });
@@ -47,16 +52,17 @@ class ViewProjectPage extends Component {
     const url = Global.gatewayUrl("prjt/project/accessLevel");
 
     const body = {
-      project_id: parseInt(projectID)
+      project_id: parseInt(projectID),
     };
     const options = Global.options({}, body, "POST");
-    Global.fetch(url, options, data => {
+    Global.fetch(url, options, (data) => {
       console.log(data);
       this.setState({ accessLevel: data.access_level });
     });
   }
   goToPermissionsPage() {
-    window.location.href = Global.pageUrl("projects/18/permissions");
+    const { projectID } = this.props.match.params;
+    window.location.href = Global.pageUrl(`projects/${projectID}/permissions`);
   }
 }
 

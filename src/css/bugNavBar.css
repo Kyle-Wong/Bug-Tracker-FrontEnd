@@ -16,3 +16,9 @@
   border-bottom: 2px solid gray;
   color: gainsboro;
 }
+.bug-navbar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  margin: 0;
+}

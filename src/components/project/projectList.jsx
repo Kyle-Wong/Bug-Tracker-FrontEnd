@@ -3,10 +3,12 @@ import Global from "../../global";
 import ProjectListItem from "./projectListItem";
 class ProjectList extends Component {
   state = {
-    projects: [],
-    accessLevels: {}
+    projects: null,
+    accessLevels: {},
   };
   render() {
+    if (this.state.projects == null) {
+    }
     return (
       <div>
         <div className="mx-auto">{this.renderProjects()}</div>
@@ -15,13 +17,25 @@ class ProjectList extends Component {
   }
 
   componentDidMount() {
+    console.log("COMPONENT MOUNT");
     this.getProjects();
+  }
+  componentDidUpdate() {
+    window.onpopstate = (e) => {
+      //your code...
+      console.log(e);
+    };
   }
   getProjects() {
     const url = Global.gatewayUrl("prjt/project/getAll");
     const options = Global.options({}, null, "GET");
+    var today = new Date();
+    var time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    console.log(time);
+    console.log(url);
     console.log(options);
-    Global.fetch(url, options, res => {
+    Global.fetch(url, options, (res) => {
       this.setProjectList(res);
       this.getAccessLevels(res.projects);
     });
@@ -34,10 +48,13 @@ class ProjectList extends Component {
   renderProjects() {
     const { projects, accessLevels } = this.state;
     const { onDelete } = this.props;
+    if (projects == null) {
+      return <div></div>;
+    }
     if (projects.length !== 0) {
       return (
         <div>
-          {projects.map(e => {
+          {projects.map((e) => {
             const accessLevel =
               typeof accessLevels[e.project_id] === "undefined"
                 ? 3
@@ -64,14 +81,14 @@ class ProjectList extends Component {
       project_list[i] = projects[i].project_id;
     }
     const body = {
-      project_list
+      project_list,
     };
     const options = Global.options({}, body, "POST");
     console.log(options);
     let accessLevels = {};
-    Global.fetch(url, options, data => {
+    Global.fetch(url, options, (data) => {
       console.log(data);
-      data.access_level.map(e => {
+      data.access_level.map((e) => {
         accessLevels[e.project_id] = e.access_level;
       });
       this.setState({ accessLevels });

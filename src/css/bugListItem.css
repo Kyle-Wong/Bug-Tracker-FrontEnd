@@ -5,7 +5,10 @@
   font-size: 14px;
 }
 .card-header {
-  cursor: default;
+  cursor: pointer;
+}
+.bug:hover {
+  border-color: #007bff;
 }
 .tag {
   margin-right: 10px;
