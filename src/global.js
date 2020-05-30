@@ -67,8 +67,14 @@ const Global = {
     return options;
   },
   gatewayUrl(path) {
-    if (path.startsWith("/")) return `http://localhost:${gatewayPort}${path}`;
-    else return `http://localhost:${gatewayPort}/${path}`;
+    if (this.frontendURL().includes("heroku")) {
+      if (path.startsWith("/"))
+        return `https://kyle-bug-tracker-frontend.herokuapp.com${path}`;
+      else return `https://kyle-bug-tracker-frontend.herokuapp.com/${path}`;
+    } else {
+      if (path.startsWith("/")) return `http://localhost:${gatewayPort}${path}`;
+      else return `http://localhost:${gatewayPort}/${path}`;
+    }
   },
   error(error) {
     if (
