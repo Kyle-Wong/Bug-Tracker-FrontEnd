@@ -1,6 +1,5 @@
 import Cookies from "universal-cookie";
 import QueryString from "querystring";
-const logger = require("./logger");
 const gatewayPort = 9874;
 
 const Global = {
